@@ -23,9 +23,16 @@ pipeline {
         )
     }
     stages {
+        stage('Build info') {
+            steps {
+                script {
+                    echo "${currentBuild.result}"
+                }
+            }
+        }
         stage('Parameters') {
             steps {
-                 script {
+                script {
                     if ("${params.invoke_parameters}" == "yes") {
                         currentBuild.result = 'ABORTED'
                         error('Dry run completed. Require to provide parameters manually.')
