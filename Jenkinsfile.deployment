@@ -26,6 +26,7 @@ pipeline {
                         error('DRY RUN COMPLETED. JOB PARAMETERIZED.')
                     }
                 }
+                echo "All parameters ${params}"
                 echo "Restart varnish ${params.restart_varnish}"
                 echo "Flush CDN ${params.flush_cdn}"
             }
