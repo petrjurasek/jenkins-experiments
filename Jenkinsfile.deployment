@@ -26,7 +26,7 @@ pipeline {
         stage('Build info') {
             steps {
                 script {
-                    echo "${currentBuild.result}"
+                    echo "${currentBuild}"
                 }
             }
         }
