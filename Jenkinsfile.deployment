@@ -28,7 +28,7 @@ pipeline {
                  script {
                     if ("${params.invoke_parameters}" == "yes") {
                         currentBuild.result = 'ABORTED'
-                        error('DRY RUN COMPLETED. JOB PARAMETERIZED.')
+                        error('Dry run completed. Require to provide parameters manually.')
                     }
                 }
                 echo "All parameters ${params}"
