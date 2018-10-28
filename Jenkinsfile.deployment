@@ -2,6 +2,11 @@ pipeline {
     agent any
     parameters {
         choice(
+            name: 'invoke_parameters', 
+            choices: 'yes\nno', 
+            description: 'Do you whish to do a dry run to grab parameters?' 
+        )
+        choice(
             name: 'environment',
             choices: 'master\nproduction',
             description: 'Environment to deploy'
