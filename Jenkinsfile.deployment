@@ -15,6 +15,12 @@ pipeline {
     stages {
         stage('Parameters') {
             steps {
+                 script {
+                    if ("${params.Invoke_Parameters}" == "Yes") {
+                        currentBuild.result = 'ABORTED'
+                        error('DRY RUN COMPLETED. JOB PARAMETERIZED.')
+                    }
+                }
                 echo "Restart varnish ${params.restart_varnish}"
                 echo "Flush CDN ${params.flush_cdn}"
             }
