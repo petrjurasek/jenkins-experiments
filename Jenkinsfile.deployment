@@ -30,7 +30,16 @@ pipeline {
                 echo "Flush CDN ${params.flush_cdn}"
             }
         }
-        stage('Deploy') {
+        stage('Deploy artifacts') {
+            steps {
+                echo "Deploy artifacts"
+                sh "sleep `shuf -i5-10 -n1`"
+            }
+        }
+        stage('Post deploy steps') {
+            when {
+                expression { params.environment == 'production' }
+            }
             parallel {
                 stage('Restart varnish') {
                     when {
