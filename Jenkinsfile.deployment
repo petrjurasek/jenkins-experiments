@@ -25,7 +25,7 @@ pipeline {
     stages {
         stage('Build info') {
             steps {
-                echo currentBuild
+                echo currentBuild.rawBuild.getCauses()
             }
         }
         stage('Parameters') {
