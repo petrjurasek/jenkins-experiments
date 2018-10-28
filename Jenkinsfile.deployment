@@ -1,6 +1,11 @@
 pipeline {
     agent any
     parameters {
+        choice(
+            name: 'environment'
+            choices: 'master\nproduction'
+            description: 'Environment to deploy'
+        )
         booleanParam(
             name: 'restart_varnish',
             defaultValue: true,
