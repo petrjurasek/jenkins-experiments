@@ -26,7 +26,7 @@ pipeline {
         stage('Parameters') {
             steps {
                  script {
-                    if ("${params.Invoke_Parameters}" == "Yes") {
+                    if ("${params.invoke_parameters}" == "yes") {
                         currentBuild.result = 'ABORTED'
                         error('DRY RUN COMPLETED. JOB PARAMETERIZED.')
                     }
