@@ -13,7 +13,7 @@ pipeline {
         )
     }
     stages {
-        stage('Parameters) {
+        stage('Parameters') {
             steps {
                 echo "Restart varnish ${params.restart_varnish}"
                 echo "Flush CDN ${params.flush_cdn}"
