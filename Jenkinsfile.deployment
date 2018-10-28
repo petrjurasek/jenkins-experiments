@@ -1,6 +1,16 @@
 pipeline {
     agent any
     parameters {
+        choice(
+            name: 'invoke_parameters', 
+            choices: 'yes\nno', 
+            description: 'Do you whish to do a dry run to grab parameters?' 
+        )
+        choice(
+            name: 'environment',
+            choices: 'master\nproduction',
+            description: 'Environment to deploy'
+        )
         booleanParam(
             name: 'restart_varnish',
             defaultValue: true,
@@ -13,7 +23,34 @@ pipeline {
         )
     }
     stages {
-        stage('Deploy') {
+        stage('Build info') {
+            steps {
+                println currentBuild.rawBuild.getCauses()
+            }
+        }
+        stage('Parameters') {
+            steps {
+                script {
+                    if ("${params.invoke_parameters}" == "yes") {
+                        currentBuild.result = 'ABORTED'
+                        error('Dry run completed. Require to provide parameters manually.')
+                    }
+                }
+                echo "All parameters ${params}"
+                echo "Restart varnish ${params.restart_varnish}"
+                echo "Flush CDN ${params.flush_cdn}"
+            }
+        }
+        stage('Deploy artifacts') {
+            steps {
+                echo "Deploy artifacts"
+                sh "sleep `shuf -i5-10 -n1`"
+            }
+        }
+        stage('Post deploy steps') {
+            when {
+                expression { params.environment == 'production' }
+            }
             parallel {
                 stage('Restart varnish') {
                     when {
@@ -33,5 +70,10 @@ pipeline {
                 }
             }
         }
+        stage('Finish') {
+            steps {
+                echo "Finished"
+            }
+        }       
     }
 }
