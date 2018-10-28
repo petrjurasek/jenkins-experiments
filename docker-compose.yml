@@ -1,0 +1,9 @@
+version: '3'
+services:
+  jenkins:
+    user: ${UID}
+    image: jenkinsci/blueocean:${BLUEOCEAN_VERION}
+    ports: 
+      - '8080:8080'
+    volumes:
+      - './jenkins-home:/var/jenkins_home'

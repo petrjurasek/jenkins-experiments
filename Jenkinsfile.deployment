@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    parameters {
+        booleanParam(
+            name: 'restart_varnish',
+            defaultValue: true,
+            description: 'Restart varnish'
+        )
+        booleanParam(
+            name: 'flush_cdn',
+            defaultValue: true,
+            description: 'Flush CDN'
+        )
+    }
+    stages {
+        stage('Deploy') {
+            parallel {
+                stage('Restart varnish') {
+                    when {
+                        expression { params.restart_varnish == true }
+                    }
+                    steps {
+                        echo 'Restarting varnish'
+                    }
+                }
+                stage('Flush CDN') {
+                    when {
+                        expression { params.flush_cdn == true }
+                    }
+                    steps {
+                        echo 'Flushing CDN'
+                    }
+                }
+            }
+        }
+    }
+}
